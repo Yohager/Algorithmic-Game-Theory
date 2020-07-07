@@ -50,7 +50,9 @@ diffusion auction中关于IC的定义：实报type对于每一个节点来说都
 
 关键传播节点(critical diffusion nodes)：对于节点$i$来说，其关键传播节点表示如果缺少该节点则$i$无法参与这场auction中。
 
-定义：$C_i(t)'=\{ \cap L \}_{L\in\mathbb{L}_i(t')}$为节点$i$的关键传播节点集合。
+定义：$C_i(t')=\{ \cap L \}_{L\in\mathbb{L}_i(t')}$为节点$i$的关键传播节点集合。（其中$\mathbb{L}_i(t')$是所有从卖家$s$到$i$的可行的trading path的集合）考虑一个问题，对于在集合$C_i(t')$中的任意两个节点：$j$,k，我们不难发现会存在$j\in C_k(t')$或者$k\in C_j(t')$，因此进一步可以得到unique fully ordered set $C^*_i(t)'=\{ s_1,s_2,\cdots,s_k,s_{k+1},\cdots,i \}$，在这个
+
+
 
 
 
