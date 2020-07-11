@@ -29,7 +29,7 @@ The Uniform-Price Auction
 
 首先定义$i$号bidder在价格为$p$时的需求量：
 $$
-D_i(p)=\begin{cases} \min\{|\frac{B_i}{p}|,m\} &\text{ if } p < v_i;\\
+D_i(p)=\begin{cases} \min\{\lfloor\frac{B_i}{p}\rfloor,m\} &\text{ if } p < v_i;\\
 0 & \text{ if } p>v_i;
 \end{cases}
 $$
