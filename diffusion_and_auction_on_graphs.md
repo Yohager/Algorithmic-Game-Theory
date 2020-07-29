@@ -50,9 +50,18 @@ diffusion auction中关于IC的定义：实报type对于每一个节点来说都
 
 关键传播节点(critical diffusion nodes)：对于节点$i$来说，其关键传播节点表示如果缺少该节点则$i$无法参与这场auction中。
 
-定义：$C_i(t')=\{ \cap L \}_{L\in\mathbb{L}_i(t')}$为节点$i$的关键传播节点集合。（其中$\mathbb{L}_i(t')$是所有从卖家$s$到$i$的可行的trading path的集合）考虑一个问题，对于在集合$C_i(t')$中的任意两个节点：$j$,k，我们不难发现会存在$j\in C_k(t')$或者$k\in C_j(t')$，因此进一步可以得到unique fully ordered set $C^*_i(t)'=\{ s_1,s_2,\cdots,s_k,s_{k+1},\cdots,i \}$，在这个
+定义：$C_i(t')=\{ \cap L \}_{L\in\mathbb{L}_i(t')}$为节点$i$的关键传播节点集合。（其中$\mathbb{L}_i(t')$是所有从卖家$s$到$i$的可行的trading path的集合）考虑一个问题，对于在集合$C_i(t')$中的任意两个节点：$j$,$k$，我们不难发现会存在$j\in C_k(t')$或者$k\in C_j(t')$，因此进一步可以得到unique fully ordered set $C^*_i(t')=\{ s_1,s_2,\cdots,s_k,s_{k+1},\cdots,i \}$. 大概就是将关键传播节点集合进行了排序，按照传播的顺序排列的。
 
+![Example](example.png)
 
+简单实例，以agent $G$为例，共计存在四条路径可以从$s$到达$G$，则$C_G(t)=\{B,F,G\}$, 同时$C_G^\ast(t)=\{B,F,G\}$. 同时定义$d_i$表示那些以$i$作为CDN的agents。例如$d_F=\{F,G,H\}$. 
 
+令$t'_{-x}=t'-t'_x$表示将$x$集合中那部分人除去后的其他人的type集合，我们可以认为这个$x$集合中可以包含包括边或者节点，举例子：$t_{-F}=\{t_i\}_{i\in V\backslash\{d_F\}}$, $t_{-\{(B,D),(B,F)\}}=\{t_i\}_{i\in \{A,B,C\}}$.
 
+现在给出一个十分重要的定义，给定一个$t'$的情况下，假设最高的报价者为$m$，同时他的关键传播序列为$C_m^\ast(t')=\{1,2,\cdots,k,k+1,\cdots m\}$. 定义$\alpha_m=\emptyset$, 对于$i\in C_m^\ast(t')\backslash\{m\}$, 另外定义一个$\alpha_i=\{(j,l)\in E\}_{j\in d_i}$表示一个边集，这个边集中包含的是那些以在以$i$为CDN的节点为起点的一些（还是所有呢？）边的集合。这个边集存在一些性质。
 
+> 1. 信息阻塞性：节点$i+1 \notin t'_{-\alpha_i}$, 也就是说如果$\alpha_i$中的那些节点都被删除之后，$d_{i+1}$当中的那些agents是无法参与到这个auction中的。
+> 2. 节点的独立性：假设存在两个type集合$t'^{1}$和$t'^{2}$，这两个集合只在$t'_{d_{i+1}}$中存在一些差别，那么我们有$\alpha_i^1=\alpha^2_i$, 也就是说$\alpha_i$的性质是与$d_{i+1}$中agents的策略是无关的。
+> 3. 传播的单调性：如果有$r_i'\subseteq r_i''$，那么就会有$t'_{-\alpha_i'}\subseteq t'_{-\alpha''_{i}}$, 也就是说这个集合$t'_{-\alpha'_i}$是随着$r'_i$的增加而增加的。（这个点其实没怎么想通的，首先如果传播的多了，那么成为别人关键传播节点的机会也就增加了，也就是说应该有$d_i'\subseteq d_i''$，而我们知道$\alpha_i=\{(j,l)\in E\}_{j\in d_i}$，所以讲道理$\alpha_i'\subseteq \alpha_i''$, 而最终要求$t'_{-\alpha_i'}\subseteq t'_{-\alpha''_i}$, 因此实际上在$\alpha_i$中边的选择上是一个很难处理的问题个人感觉？<font color=#000ff size=4 face="微软雅黑">怎么感觉有些违反直觉？</font>, 先理解为为了实现这样的传播单调的特性，或许还没有理解内在的含义？传播的越多，将这个agent后面的节点创建的边删除后，留下的节点的数量会随之增加？）
+
+探讨一个问题：$t'_{-i}$和$t'_{-\alpha_i}$之间的区别和关联性？$t'_{-i}$表示的是将以$i$为关键传播节点的那些agents都去掉的情况，而$t'_{-\alpha_i}$实际上去掉的点和边应该比$t'_{-i}$少！他应该是有选择性的去掉一些点以及边？
