@@ -82,3 +82,51 @@ $r_i\subseteq N\backslash \{i\}$表示$i$的followers，定义拍卖网络$G=(N\
 
 **理论三**：DNA-MU是IC的.
 
+证明的步骤大概分为两个点，首先证明一个buyer没有动机向他的周围的人不传播，其次证明他误报不会增加他的收益。
+
+**Lemma 1**：对于任意一个$i$，$\theta_i=(v_i,r_i)$, $\theta_{-i}'$, $\theta_i'=(v_i,r_i')$, 使得对于$r_i'\subset r_i$，都有$v_i\cdot f_i(\theta_i,\theta'_{-i})-t_i(\theta_i,\theta'_{-i})\geq v_i\cdot f_i(\theta'_i,\theta'_{-i})-t_i(\theta'_i,\theta'_{-i})$.
+
+**Proof**：考虑如果$i$不传信息，他可能会通过下面的几种方式影响其他$j$的buyer，（1）在$T(\theta)$中$i$的子孙后裔会失去参与auction的资格；（2）原本满足$i\succ j$的那些buyer $j$因为$i$的不传播使得$d(j)$增大了。在第一种情况下，首先本身$j$就不会包含在$\hat{N}_{-i}$中，另外$j$不参与可能会导致一些其他buyer $j'$的价格降低，反而存在一定的可能性$i$的price升高。第二种情况下$d(j)$增加，而$i\succ j$的关系没有变化，因而$i$的price没有什么变化。所以综上来看不传是没有用的甚至是使得自己想获得商品的难度增加的。
+
+**Lemma 2**：对于任意一个$i$，$\theta_i=(v_i,r_i)$, $\theta_{-i}'$,以及 $\theta_i'=(v_i',r_i)$, 都会满足$v_i\cdot f_i(\theta_i,\theta'_{-i})-t_i(\theta_i,\theta'_{-i})\geq v_i\cdot f_i(\theta'_i,\theta'_{-i})-t_i(\theta'_i,\theta'_{-i})$.
+
+**Proof**：对于一个buyer $i$来说，他的payment价格来自于$v^\ast(\hat{N}_{-i} \backslash \hat{W}_{\succ i},k-|\hat{W}_{\succ i}|)$. 显然我们会发现$p_i\geq v^\ast(\hat{N}_{-i},k)$（<font color=red>这个结论确实成立但是如何完备证明呢？</font>）. 定义$\pi_i=v^\ast(\hat{N}_{-i},k)$。不难发现$\pi_i$是独立于$i$的报价的，如果$v_i\leq \pi_i$，那么无论$i$的report type是什么他的收益定义小于等于0，假设$v_i> \pi_i$，那么他的payment价格等于$p_i=v^\ast(\hat{N}_{-i}\backslash \hat{W}_{-i},k-|\hat{W}_{-i}|)$。考虑任意一个优先级高于$i$的buyer，假设为$j$，如果存在这个$j$，他的$v'_j\leq \pi_i$且其成为了一个winner，那么我们认为此时的$p_i$是严格大于$\pi_i$的；如果这个$j$，他的$v'_j>\pi_i$那么他一定是一个前$k-1$个的获胜者，事实上任意的优先级比$i$高的$j$ buyer，如果$j$成为了一个winner，他是不会影响$p_i$的。
+
+那么我们考虑$i$唯一的能够降低自己$p_i$的方式就是通过高报来使得一个buyer从winner变为loser，假设$j$就是这样一个winner，注意到$j$的优先级仍然高于$i$，如果$j$是$i$的ancestor的话，$i$的报价是改变不了$j$的price的，因此在$T(\theta)$上一定要有$i$和$j$在不同的分支上才能够产生影响，由于$j$是一个winner，$j$的$p_j$等于：$p_j=v^\ast(\hat{N}_{-j}\backslash \hat{W}_{\succ j},k-|\hat{W}_{\succ j}|)$, 且$v_j'\geq p_j$. 同时，我们不难发现如果想要提高$p_j$，对于$i$来说，$v_i$一定是小于等于$v^\ast(\hat{N}_{-j}\backslash \hat{W}_{\succ j},k-|\hat{W}_{\succ j}|)$, 因为如果$v_i$太高了的话，无法影响到$p_j$, 只有$v_i$处于某一个$k-|\hat{W}_{\succ j}|$的位置才能够通过自己的report改变$j$的payment. 如果$i$成为了$\hat{N}_{-j}\backslash \hat{W}_{\succ j}$中的第$k-|\hat{W}_{\succ j}|-1$高的一个winner，那么即使$i$去高报也无法改变$j$的payment，因此一定有$v'_j\geq v_i$, 而前面又假设了$v'_j\leq \pi < v_i$. 因此出现矛盾，从而说明$i$无法通过误报自己的value来使得自己的payment降低。
+
+#### Efficiency Analysis
+
+##### Bounded Efficiency
+
+在k个单位物品的拍卖中，帕累托效率要求每一个获胜者一定都是top-k的buyers，也就是说他的value不能低于第k高的价格。但是帕累托效率在这个传播auction的模型下并不适用，原因在于每一个参与者是没有什么动机去将拍卖信息传播给周围的人的，因为他们实际上处于一个竞争的环境下。这里就引入了一个更加弱的概念**bounded efficiency**. 这个会与参与者将信息传播出去的动机保持一致。如果每一个winner都是一个在除了他的后裔中的前top-k的buyers，那么就称这个分配规则是满足bounded efficiency。
+
+**命题一**：DNA-MU机制满足bounded efficiency, $\forall \theta',\forall i \in \hat{N},s.t.f_i(\theta')=1,\text{#}\{j\in \hat{N}_{-i}|v_j'>v'_i\}<k$.
+
+ **Proof**：假设$i\in \hat{N}$是一个任意的winner，而$W\subseteq \hat{N}\backslash\{i\}$表示那些先于$i$被选为winner的一群agents，根据定义，$p_i=v^\ast(\hat{N}_{-i}\backslash\{W\},k-|W|)$, 而$v_i'>p_i$的，从而我们不难知道在$\hat{N}_{-i}\backslash\{W\}$中少于$k-|W|$个agent的报价是高于$v_i'$的，从而有$\text{#}\{j\in \hat{N}_{-i}\backslash\{W\}|v_j'>v_i'\}<k-|W|$, 也就是说无论在已经获胜的人中有多少人的报价超过了$v_i'$都会有结论：$\text{#}\{j\in \hat{N}_{-i}|v_j'>v_i'\}<k$. 证毕。
+
+**命题二**：机制DNA-MU在社会福利上优于ND-VCG和FCFS-F机制，反之不成立。
+
+##### Worst-Case Efficiency Loss
+
+我们给这个DNA-MU机制添加一个保留价格，这种做法往往是seller为了最大化收益而进行的操作。定义一个保留价格为$v_h$. 那么之前的$T(\theta)$可以修改为如下所示的图：
+
+![DNA-MU with reserve price](DNA-MU-reserve.png)
+
+上图就是之前的范例中的添加了三个dummy buyers的情况。保留价格定为40. 同样的执行一遍机制流程，最终发现获得商品的agents是$\{i_2,i_5,i_6\}$. 
+
+添加保留价可能会破坏non-wasteful的性质。
+
+**定义七**：定义$\bar{v}$表示所有value的上界，如果一个$(f,t)$机制满足：
+$$
+\alpha = \frac{1}{k\bar{v}}\sup_{\theta'\in \Theta}\left[\max_{x\in X}\sum_{i\in N}v_i'x_i - \sum_{i\in N} v'_i\cdot f_i(\theta') \right]
+$$
+$\alpha$的范围在$[0,1]$之间，同时$\alpha$的值越小越好。给定一个$\theta'$，定义$\ell$表示一个集合，这个集合是那些自己的value不低于保留价$v_h$的buyers的集合。$\ell:=\text{#}\{i\in \hat{N} | v_i \geq v_h\}$.
+
+**Lemma 3**：假设所有人都是实报，那么$\min(\ell,k)$单位的物品都以保留价被分配出去了。
+
+**理论四**：通过设置保留价为$v_h=\bar{v}/2$，带有$v_h$这个保留价的DNA-MU机制满足$1/2-$inefficiency.
+
+**Proof**：首先假设$\ell < k$，那么机制将$\ell$件商品分配给了前$\ell$价高的agents，同时还有$k-\ell$件商品没有被分配，则最大效用损失上界是$(k-\ell)v_h$. 而最糟糕的情况是所有人的value都低于保留价，则最坏情况的效用损失为$k\cdot v_h$；如果$\ell\geq k$，那么机制将$k$件商品全部分配出去，此时最大效用损失的上界为$k(\bar{v}-v_h)$，综合来看，最大的效用损失表示为：$\max(k\cdot v_h,k(\bar{v}-v_h))$. 其下界是设置$v_h=\bar{v}/2$的情况，因此当保留价为$\bar{v}/2$的情况下，DNA-MU机制是一个$1/2-$inefficiency的机制。
+
+#### Revenue Analysis
+
