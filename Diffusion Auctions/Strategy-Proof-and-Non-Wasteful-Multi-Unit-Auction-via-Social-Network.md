@@ -72,6 +72,8 @@ $r_i\subseteq N\backslash \{i\}$表示$i$的followers，定义拍卖网络$G=(N\
 
 <font color=red>4. 能不能将这个算法扩展到Sponsor Search Auctions？</font>
 
+<font color=red>5. 思考一个十分重要的问题，如果说IDM中给予那些critical nodes的补偿是为了让他们实报，那么在DNA-MU这个机制中并没有考虑这个补偿的问题，因此是否存在一些非DSIC的问题？尤其注意Lemma 2的证明过程是否存在一些问题？</font>
+
 ##### DNA-MU的一些性质
 
 定义$\hat{W}=\{w_1,w_2,\cdots\}$, 同时定义$\hat{W}_{\succ j}=\{w\in \hat{W}|w\succ j\}$.
@@ -90,7 +92,7 @@ $r_i\subseteq N\backslash \{i\}$表示$i$的followers，定义拍卖网络$G=(N\
 
 **Lemma 2**：对于任意一个$i$，$\theta_i=(v_i,r_i)$, $\theta_{-i}'$,以及 $\theta_i'=(v_i',r_i)$, 都会满足$v_i\cdot f_i(\theta_i,\theta'_{-i})-t_i(\theta_i,\theta'_{-i})\geq v_i\cdot f_i(\theta'_i,\theta'_{-i})-t_i(\theta'_i,\theta'_{-i})$.
 
-**Proof**：对于一个buyer $i$来说，他的payment价格来自于$v^\ast(\hat{N}_{-i} \backslash \hat{W}_{\succ i},k-|\hat{W}_{\succ i}|)$. 显然我们会发现$p_i\geq v^\ast(\hat{N}_{-i},k)$（<font color=red>这个结论确实成立但是如何完备证明呢？</font>）. 定义$\pi_i=v^\ast(\hat{N}_{-i},k)$。不难发现$\pi_i$是独立于$i$的报价的，如果$v_i\leq \pi_i$，那么无论$i$的report type是什么他的收益定义小于等于0，假设$v_i> \pi_i$，那么他的payment价格等于$p_i=v^\ast(\hat{N}_{-i}\backslash \hat{W}_{-i},k-|\hat{W}_{-i}|)$。考虑任意一个优先级高于$i$的buyer，假设为$j$，如果存在这个$j$，他的$v'_j\leq \pi_i$且其成为了一个winner，那么我们认为此时的$p_i$是严格大于$\pi_i$的；如果这个$j$，他的$v'_j>\pi_i$那么他一定是一个前$k-1$个的获胜者，事实上任意的优先级比$i$高的$j$ buyer，如果$j$成为了一个winner，他是不会影响$p_i$的。
+**Proof**：对于一个buyer $i$来说，他的payment价格来自于$v^\ast(\hat{N}_{-i} \backslash \hat{W}_{\succ i},k-|\hat{W}_{\succ i}|)$. 显然我们会发现$p_i\geq v^\ast(\hat{N}_{-i},k)$（这个可以从定义获得也可以推导出来）. 定义$\pi_i=v^\ast(\hat{N}_{-i},k)$。不难发现$\pi_i$是独立于$i$的报价的，如果$v_i\leq \pi_i$，那么无论$i$的report type是什么他的收益定义小于等于0，假设$v_i> \pi_i$，那么他的payment价格等于$p_i=v^\ast(\hat{N}_{-i}\backslash \hat{W}_{-i},k-|\hat{W}_{-i}|)$。考虑任意一个优先级高于$i$的buyer，假设为$j$，如果存在这个$j$，他的$v'_j\leq \pi_i$且其成为了一个winner，那么我们认为此时的$p_i$是严格大于$\pi_i$的；如果这个$j$，他的$v'_j>\pi_i$那么他一定是一个前$k-1$个的获胜者，事实上任意的优先级比$i$高的$j$ buyer，如果$j$成为了一个winner，他是不会影响$p_i$的。
 
 那么我们考虑$i$唯一的能够降低自己$p_i$的方式就是通过高报来使得一个buyer从winner变为loser，假设$j$就是这样一个winner，注意到$j$的优先级仍然高于$i$，如果$j$是$i$的ancestor的话，$i$的报价是改变不了$j$的price的，因此在$T(\theta)$上一定要有$i$和$j$在不同的分支上才能够产生影响，由于$j$是一个winner，$j$的$p_j$等于：$p_j=v^\ast(\hat{N}_{-j}\backslash \hat{W}_{\succ j},k-|\hat{W}_{\succ j}|)$, 且$v_j'\geq p_j$. 同时，我们不难发现如果想要提高$p_j$，对于$i$来说，$v_i$一定是小于等于$v^\ast(\hat{N}_{-j}\backslash \hat{W}_{\succ j},k-|\hat{W}_{\succ j}|)$, 因为如果$v_i$太高了的话，无法影响到$p_j$, 只有$v_i$处于某一个$k-|\hat{W}_{\succ j}|$的位置才能够通过自己的report改变$j$的payment. 如果$i$成为了$\hat{N}_{-j}\backslash \hat{W}_{\succ j}$中的第$k-|\hat{W}_{\succ j}|-1$高的一个winner，那么即使$i$去高报也无法改变$j$的payment，因此一定有$v'_j\geq v_i$, 而前面又假设了$v'_j\leq \pi < v_i$. 因此出现矛盾，从而说明$i$无法通过误报自己的value来使得自己的payment降低。
 
@@ -130,3 +132,36 @@ $\alpha$的范围在$[0,1]$之间，同时$\alpha$的值越小越好。给定一
 
 #### Revenue Analysis
 
+**命题三**：DNA-MU机制在卖家的收益上来说，优于ND-VCG和FCFS-F，反之不成立。
+
+在$|r_s|\leq k$时，在ND-VCG机制下的收益为0，显然DNA-MU机制的收益更高；当$|r_s|>k$时，ND-VCG机制每一个赢家所支付的值为$v^\ast(r_s\backslash\{i\},k)$. 而DNA-MU机制下的每一个赢家的payment定义为：$v^\ast(\hat{N}_{-i},k)$，而显然$\hat{N}_{-i}$是一个$r_s\backslash\{i\}$的一个超集，所以我们会发现DNA-MU机制的卖家收益一定是高于ND-VCG机制的。而至于FCFS-F机制，其卖家收益一直为0，而DNA-MU机制的收益一定非负且往往都是正收益。因此DNA-MU机制的卖家收益是优于ND-VCG和FCFS-F的。
+
+**follower revenue monotonic**：如果卖家的收益是关于拍卖参与者人数成单调递增的趋势的，那么就称这个机制是*follower revenue monotonic*的。
+
+**定义八**：如果对于任意的$r_s,\theta'$以及$r_s'\subseteq r_s$, 都满足$\sum_{i\in N}t_i(\theta'|r_s) \geq \sum_{i\in N} t_i(\theta'|r_s')$, 那么我们就称这个机制是一个follower revenue monotonic的。
+
+DNA-MU机制下是不满足follower revenue monotonic的。（原文中给了一个例子，这里就不赘述）
+
+**定义九**：OPTIMAL DIFFUSION：给定$k$个单位的物品，一个profile $\theta'$，一个直接buyers的集合$r_s$，一个阈值$K$，是否存在一个子集$r_s'\subseteq r_s$使得$\sum_{i\in N}t_i(\theta'|r_s')\geq K$在DNA-MU机制下始终成立。
+
+关于这个定义九的证明，作者的思路大致是构建了一个特殊的auction网络，在这个网络中找到了一个传播子集满足定义九中的条件。具体的证明过程可以看full version版本的论文，这个比较详细。这个部分也不是想探讨的论文的重点内容，所以这里就不过多赘述。
+
+#### Incentive Analysis
+
+**命题四**：假定$k\geq 2$，对于每一个agent $i$来说汇报type为$(v_i,\emptyset)$在DNA-MU机制下不是一个占优策略。
+
+**Proof**：考虑一个情境，一共有$k$个单位的物品同时有$k+2$个agents最终参与到这个auction中。
+
+![Special Example](example2.png)
+
+在上述这个实例中，$r_s=\{i_1,i_3,i_5,i_6,\cdots,i_{k+2}\}$，$i_1$将信息传递给了$i_2$同时$i_3$将信息传递给了$i_4$. 同时定义优先级顺序为：$i_5\succ i_6\succ \cdots \succ i_{k+2}\succ i_3\succ i_1 \succ i_4 \succ i_2$， 在这种情况下机制的运行状况是: 首先将$k-2$个物品分配给$\{i_j\}_{5\leq j\leq k+2}$，然后再考虑$i_3$，无法获得一件商品，$i_1$获得一件商品且支付$9$；假设$i_1$没有向$i_2$传递这个auction的消息，那么最终的情况是$i_1$获得一件商品且支付$10$.（<font color=red>这个支付价格为10还有待商榷。</font>）从而说明$(v_i,\empty)$再DNA-MU中不是一个占优策略。
+
+**命题五**：再ND-VCG和FCFS-F中，$(v_i,\empty)$是一个占优策略。
+
+证明略去。
+
+#### Conclusions
+
+DNA-MU机制具有一些良好的性质：strategy-proofness, non-wastefulness, non-deficit, individual rationality. 
+
+未来需要的工作展开在卖家收益的分析上，将DNA-MU机制扩展到带有decreasing marginal values的多单位物品的拍卖。
