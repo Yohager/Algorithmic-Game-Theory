@@ -85,3 +85,7 @@ diffusion auction中关于IC的定义：实报type对于每一个节点来说都
 >
 >   3. **else**:
 >      1. 对于$i$来说支付结果为：$x_i(t')=W^\ast(t'_{-i})-W^\ast(t'_{-\alpha_i})$
+
+**Theorem 1**：CDM机制是IR且IC的。
+
+*Proof*. 假设$g$是CDM机制下的一个winner. 第一类人：不在关键传播序列上的那些人$i \notin C^\ast_m(t')$，他们的收益为0，对于$i$来说唯一改变自己的收益的方式，高报变成赢家。此时他的payment等于$v'_m$，这个值高于他的估值$v_i$，因此收益会降低；对于第二类$i\in C^\ast_g(t')\backslash \{g\}$，他的收益为$W^\ast(t'_{-\alpha_i}) - W^\ast(t'_{-i})$. 我们发现后一项的值与$i$是无关的，而前一项根据传播的单调性当$r_i'=r_i$时会取到最大值。如果对于$i$来说他变为了获胜者，那么他的收益变为：$v_i-W^\ast(t'_{-i})$，这个值小于$W^\ast(t'_{-\alpha_i})-W^\ast(t'_{-i})$.  
