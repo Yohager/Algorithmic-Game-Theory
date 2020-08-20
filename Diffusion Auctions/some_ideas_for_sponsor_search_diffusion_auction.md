@@ -6,6 +6,7 @@
 4. critical bid算是一个关于传播情况的函数，critical bid是关于传播情况非递减的。（这是解决分配问题的一个关键）
 5. 对于一个IC diffusion auction的机制来说，efficient和(weakly)budget-balanced之间是不能同时满足的。
 6. $\tilde{x}(r_i)_i-\bar{x}_i(r_i)=v^\ast_i(r_i)$如何使用起来？
+7. <font color=red>IC diffusion auction的efficiency与weakly budget-balanced之间的trade-off有没有一种系统研究？</font>
 
 一些解决方案：
 
@@ -18,7 +19,6 @@
 7. 将IC diffusion auction扩展到sponsor search的情境下的时候会存在一个很大的问题是payment的分解不再是分解为$\tilde{x}_i$和$\bar{x}_i$而是变成一个多阶段的分解payment. 
 8. 从价高者得的单调分配规则改变为非传递条件下的价高者得。
 9. <font color=red>放宽要求，先考虑使用VCG下的单调的分配规则。价格前k高的人获得前k个slot.</font>
-
 10. 在构造出一颗关键传播Tree的情况下可以考虑分析所有路径上的情况。（存在需要传播补偿的情况）
-
 11. 抽象的写出一个关于关键字赞助传播拍卖的情景就是考虑将最大化社会福利（或者其他指标）作为优化目标写成优化问题的一个分配规则。
+12. 从最高价开始分析，判断他是否有资格获得第一名的位次。依次类推这个过程。
