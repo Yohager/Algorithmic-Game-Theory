@@ -117,3 +117,37 @@ $$
 
 **Theorem 1.** CSM机制是IR, IC, efficient的。
 
+*Proof.* 首先根据分配规则可以知道CSM机制一定是efficient的。下面进一步证明IR和IC：
+
+首先对于任意的一个buyer $i$来说，实报的情况下他的收益可以写为：$W^\ast(t')-W^\ast_{-i}$, 其中$W^\ast(t')$是$i$无法去影响的最优社会福利，假设存在$i$可以通过误报为$b_i'$去改变分配结果从而提高$v_i(t_i,\pi^{csm})+(W^\ast(t')-v_i(t_i',\pi^{csm}))$, 这就违反了VCG机制下也就是刚刚所说得$W^\ast(t')$是最优社会福利且是$i$无法影响的部分。简而言之：$v_i(t_i,\pi^{csm})+(W^\ast(t')-v_i(t_i',\pi^{csm}))$这个式子的第一项表示的$i$的真实估值无法通过误报改变，而后面的一部分表示的是在除去$i$的情况下的所有其他人的社会福利的值的和。而假设$i$本来是一个loser，通过误报他成为一个winner，计算他的收益会发现其收益会变为负值，而在实报的情况下：其收益等于$W^\ast(t')-W^\ast_{-i}\geq 0$, 因此对于任何的一个buyer来说 truthful的报价对于他来说一定是一个收益最大化的策略。
+
+其次对于中介节点来说，我们将证明将auction的信息传递给它的所有的邻居将会是一个收益最大化的策略。首先如果这个中介节点不属于$LCC_m$，那么这个节点无论进行什么样的信息传递都不会改变它的收益，且这个收益一定等于0. 对于$i\in LCC_m$的那些中介节点来说，其收益等于$W^\ast_{-r_i^{\ast'}}-W^\ast_{-d_i}$, 因为我们很容易发现$v_i(t_i,\pi^{csm})=v_i(t_i',\pi^{csm})=-c_i$. 其中$-d_i \subseteq -r_i^{\ast'}$, 所以这个收益一定是大于等于零的。满足IR. 由于$i\notin -d_i$，因此$W_{-d_i}$一定是独立于$r_i'$的，无论$i$的传递信息情况如何都不会改变这个值，因此只需要考虑后面的这个值。假设$i$误报的信息为$r_i'\subseteq r_i$。这样可能会出现两种情况，第一种winner因为这个信息的传递发生了改变，此时一定有$r_i^\ast\subset r_i\backslash r_i'$. 这里的$r_i^\ast$表示的是当$i$在实报的情况下得到的使得当前winner改变的最小集合，同时定义$r_i^{\ast'}$表示在$i$在汇报$r_i'$情况下的使得winner变化的最小阈值集合。显然我们很容易得到：$-r_i^{\ast'}\subset -r_i^\ast$. 显然实报情况下的payment的值低于误报情况下的payment的值。如果winner没有改变，那么可以得到：$r_i^\ast\subseteq (r_i^{\ast'}\cup (r_i\backslash r_i'))$，这种情况下也表示$-r_i^{\ast'}\subset -r_i^{\ast}$. 因此不论在哪一种情况下我们都可以得到如实传播对于中介节点来说一定是最大化其收益的。
+
+综上我们得到CSM机制是IR和IC的。证明的关键点在于一个中介节点传递信息的邻居越多他的阈值子集就会越小。因此在他全部传递的情况下$W_{-r_i^{\ast'}}^\ast$取得最大的值，进而收益也取得最大的值。
+
+**Lemma 1.** 给定一个可行的report profile $t'$，假设winner是$m$，同时有$LCC_m=\{l_1,l_2\cdots,l_q=m\}$. 对于任意一个中介节点$l_i\in LCC_m$，当$l_i$的传播策略从$r_{l_i}'$变化为$r_{l_i}'\backslash r_{l_i}^{\ast'}$, winner变为了$m'\neq m$. 然后我们可以得到：$\{l_{i+1},l_{i+2},\cdots,l_q\}\cap LCC_{m'}=\empty$. 
+
+*Proof.* 这里的证明采用反证法，首先假设存在这样一个$l_j\in \{l_{i+1},l_{i+2},\cdots l_q\}\cap LCC_{m'}$. 我们记录从seller到$l_j$的最小传输cost为$x$，从$l_j$到$m$的最小传输cost为$y$，从$l_j$到$m'$的最小传输cost为$z$. 由于我们知道$m'$是新的winner，所以我们不难得到：$b_{m'}-x-z > b_m-x-y$，也就是$b_{m'}-z>b_m-y$. 这与从seller到$m$的最短路径为$LCC_m$相矛盾，因此得到结论$\{l_{i+1},\cdots,l_q\}\cap LCC_{m'}=\empty$.
+
+对于所有的中介节点来说，如果他无法影响谁能够获胜的话，他的收益始终是为0的。对于那些能够改变的中介节点来说，$\{l_{i+1},l_{i+2},\cdots,l_q\}\cap LCC_{m'}=\empty$意味着$LCC_{m'}$是独立于$l_k\in \{l_{i+1},l_{i+2},\cdots,l_q\}$的，因此我们可以得到：$LCC_{m'}\subseteq -d_{l_k}$, 从而$W^\ast_{-r_i^{\ast'}}=SW_{m'}=\sum_{i\in LCC_{m'}}v_i(t_i'\pi^{csm})\leq \sum_{i\in -d_{l_k}}v_i(t_i',\pi^{csm})=W^\ast_{-d_{l_k}}$. 
+
+**Theorem 2.** CSM是WBB的且其卖家收益不应该低于$W^\ast_{-d_{1^\ast}}$, 其中$1^\ast$表示的是在$LCC_m$中第一有$r_{1^\ast}^\ast\neq r_{1^\ast}$的agent.
+
+*Proof.* 记那些能够改变的winner的中介节点（也就是那些$r_{1^\ast}^\ast\neq r_{1^\ast}$）的集合为$LCC^\ast_m=\{1^\ast,2^\ast,\cdots,k^\ast\}\subseteq LCC_{m}$. 不属于$LCC^\ast_m$的那些中介节点我们显然可以得到他们支付就等于$v_i(t_i,\pi^{csm})$. 因此我们可以写出seller的revenue的值可以表示为：
+$$
+\begin{split}
+\sum_{i\in N}x_i(t)&=\sum_{i\in LCC_m}x_i(t)\\
+&=\sum_{i\in LCC^\ast_m}(W^\ast_{-d_i}-W^\ast_{-r_i^\ast})+\sum_{i\in LCC_m}v_i(t_i,\pi^{csm})+W^\ast_{-m}-W^\ast(t)\\
+&=\sum_{i\in LCC^\ast_m}(W^\ast_{-d_i}-W^\ast_{-r_i^\ast}) + W^\ast_{-m}\\
+&= W^\ast_{-d_1^\ast} + \sum_{i\in LCC_m^\ast \backslash\{1^\ast\}} (-W^\ast_{-r_i^\ast}+W^\ast_{-d_{i+1}})
+\end{split}
+$$
+根据Lemma1我们可以得到对于中介节点$i^\ast\in LCC_m^\ast$, $(i+1)^\ast \notin LCC_{m'}$, 也就意味着$LCC_{m'}\subseteq -d_{(i+1)^\ast}$, 因此对于所有的$j \in LCC^\ast_m\backslash \{1^\ast\}$都有$W^\ast_{-d_{j+1}}\geq W^\ast_{-r^\ast_j}$，从而求和之后有$\sum_{i\in LCC_m^\ast \backslash\{1^\ast\}} (-W^\ast_{-r_i^\ast}+W^\ast_{-d_{i+1}})\geq 0$. 因此$Rev^{csm}=W^\ast_{-d_{1^\ast}}+\delta\geq W^\ast_{-d_{1^\ast}}\geq b_{r_s}^2\geq 0 $. 
+
+我们在Figure1(b)中运行一遍CSM机制，首先得到$H=\arg\max_{j\in N}SW_j$以及$LCC_H=\{A,E,H\}$. 求解$LCC_H$中中介节点的$r^\ast_i$, 其中$r^\ast_A=\{E\}$以及$r^\ast_E=\{H\}$. 计算支付结果：$x_A=W^\ast_{-d_A}-W^\ast_{-r_A^\ast}+v_A(t_A,\pi^{csm})=4-7+0=-3$. 同理我们可以计算中介节点E的支付结果为：$x_E=W^\ast_{-d_E}-W^\ast_{-r_E^\ast}+v_E(t_E,\pi^{csm})=7-8+(-1)=-2$. 最终计算winner H的支付为$8-9+10=9$. 其余agents的支付都为0，最终卖家收益等于$9-3-2=4$远远高于Vickrey Auction的卖家收益。
+
+#### Conclusion
+
+在这个模型中一个重要的假设是每一个中介节点的cost是公共知识。如果这个cost也变成一个私人信息的话，整个模型可以归约为一个双边贸易的模型中，是不存在IR, IC, efficient且WBB的机制的。
+
+在经济网络的设定下寻找最大的卖家收益的工作还没有进行。同时这是一个单物品的问题，还没有扩展到多物品上去。思考如果使用DAMD（Distributed Alogorithmic Mechanism Design）去探讨这一系列的问题。
