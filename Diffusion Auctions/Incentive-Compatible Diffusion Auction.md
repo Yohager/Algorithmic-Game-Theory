@@ -64,7 +64,7 @@ Diffusion Auction是一种非典型性的多维度机制设计问题。当将age
 
 **Lemma 3**：如果一个diffusion auction是IC的，那么我们一定有对于所有的$t$和$i$，都会存在$\tilde{x}_i(r_i)-\bar{x}_i(r_i)=v^\ast(r_i)$.
 
-*Proof*. 依旧使用反证法，假设我们有$\tilde{x}_i(r_i)-\bar{x}_i(r_i)\neq v^\ast(r_i)$, 则存在两种可能，要么$\tilde{x}_i(r_i)-\bar{x}_i(r_i) > v^\ast(r_i)$, 要么$\tilde{x}_i(r_i)-\bar{x}_i(r_i) < v^\ast(r_i)$. 对于前面一种情况下，那些汇报type为$t_i=(v^\ast(r_i),r_i)$的agents会想办法降低自己的报价使得自己输掉这场auction，因为输掉的收益更高即：$-\bar{x}_i(r_i) > v^\ast(r_i)-\tilde{x}_i(r_i)$. 而对于后一种情况：那些本身是输家的玩家会提高自己的报价使得自己的收益提升。（<font color=red>这里的证明还需要再考究一下，先放一下。</font>）
+*Proof*. 依旧使用反证法，假设我们有$\tilde{x}_i(r_i)-\bar{x}_i(r_i)\neq v^\ast(r_i)$, 则存在两种可能，要么$\tilde{x}_i(r_i)-\bar{x}_i(r_i) > v^\ast(r_i)$, 要么$\tilde{x}_i(r_i)-\bar{x}_i(r_i) < v^\ast(r_i)$. 对于前面一种情况下，那些汇报type为$t_i=(v^\ast(r_i),r_i)$的agents会想办法降低自己的报价使得自己输掉这场auction，因为输掉的收益更高即：$-\bar{x}_i(r_i) > v^\ast(r_i)-\tilde{x}_i(r_i)$. 而对于后一种情况：那些本身是输家的玩家会提高自己的报价使得自己的收益提升。
 
 **定义九**：(Diffusion-Monotonic Decoupled-Payments). 如果对于所有的$i$以及所有的$t_{-i}'$，$r_i''\subseteq r_i'$, 我们都有$\tilde{x}_i(v_i',r_i'')\geq \tilde{x}_i(v_i,r_i')$同时$\bar{x}_i(v_i',r_i'') \geq \bar{x}_i(v_i',r_i')$. 那么我们就称支付$x$的两部分分解都是传播单调的。
 
@@ -126,7 +126,7 @@ s.t.\quad &\forall v_i'\neq v_i'',r_i'\subseteq r_i\\
     &\bar{x}_i(r_i) + v^\ast_i(r_i)\leq \bar{x}_i(r_i')+v^\ast_i(r_i')\\
    & \bar{x}_i(\emptyset)\leq 0
 
-\end{split}
+\end{split}
 $$
 根据约束三我们不难发现必须保证$\bar{x}_i(r_i) + v^\ast_i(r_i)\leq \bar{x}_i(\empty)+v^\ast_i(\empty)$, 改写一下：
 $$
