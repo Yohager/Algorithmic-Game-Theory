@@ -49,4 +49,7 @@ $t_i=(v_i,r_i)$. 假设固定传播，分析$v_i$的变化对于他slot变化的
 
 固定$v_i$，他的$r_i$关于payment的变化。（<font color=red>这个是解决问题的关键点</font>）
 
-VCG在多物品的diffusion auction上是否IC？
+VCG在多物品的diffusion auction上是否IC？（证明完成VCG在多物品上的diffusion auction是IC的下面考虑思考IDM的演化）
+
+GIDM的不IC的问题在于回溯的过程存在不传播比传播的收益更高。
+
