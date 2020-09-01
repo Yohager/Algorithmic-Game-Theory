@@ -44,4 +44,56 @@ IDM的solution是给网络中的一些割点一些reward从而达到让seller的
 
 ##### Fair Diffusion Mechanism
 
-给定一个可行的action profile $a\in \mathcal{F}(\theta)$, 找到最高报价者$h\in \arg\max_{i\in N}v_i'$. 
+给定一个可行的action profile $a\in \mathcal{F}(\theta)$, 找到最高报价者$h\in \arg\max_{i\in N}v_i'$. 定义$v_D^{1^{st}}=\max_{i\in D}v_i'$表示在子集$D$中的最高报价者，即我们可以得到$v_h'=v_N^{1^{st}}$. 定义$g_D^{1^{st}}\in \arg\max_{i\in D}v_{V_i}^{1^{st}}$表示在子集$D$中的最高价的那个strong critical ancestor（即$V_D$中的最高报价者）
+
+分配规则：
+$$
+\pi_i(a)=
+\begin{cases}
+1 &\text{if }i=c_j\in C,v_i'=v_{N_{-\{c_{j+1}\}\cup M_{c_jc_{j+1}}}}^{1^{st}}\text{and }\sum_{k\in N_{-i}}\pi_k(a)=0 \\
+0 &\text{otherwise}
+\end{cases}
+$$
+根据这个分配规则，我们可以得到一个winner $c_w\in C$以及$\pi_{c_w}(a)=1$. 接着我们将rewards分配给strong critical ancestor sequence $\hat{C}=\{c_1,c_2,\cdots,c_w\}$以及weak critical ancestors $\bigcup_{j=1}^{w-1}M_{c_jc_{j+1}}$.
+
+支付规则：
+$$
+p_i=
+\begin{cases}
+v^{1^{st}}_{N_{-c_j}}-v^{1^{st}}_{N_{-\{c_{j+1}\}\cup M_{c_jc_{j+1}}}}-R_{c_j}& \text{if }i=c_j\in \hat{C}\backslash\{c_w\}\\
+v^{1^{st}}_{N_{-c_w}}-R_{c_w}& \text{if } i=c_w\\
+-R_i &\text{if } i \in M_{c_{j-1}c_j}\\
+0 &\text{otherwise}
+\end{cases}
+$$
+其中$R_i$定义为：
+$$
+R_i=
+\begin{cases}
+\dfrac{v^{1^{st}}_{N_{-\{c_j\}}\cup g^{1^{st}}_{M_{c_{j-1}c_j}}}-v^{1^{st}}_{N_{-\{c_j\}}\cup M_{c_{j-1}c_j}}}{|M_{c_{j-1}c_j}|+1} & \text{if }i=c_j\in \hat{C}\\
+\dfrac{v^{1^{st}}_{N_{-\{i\}\cup \{c_j\}}}-v^{1^{st}}_{N_{-\{c_j\}}\cup M_{c_{j-1}c_j}}}{|M_{c_{j-1}c_j}|+1} &\text{if }i\in M_{c_{j-1}c_j}\\
+0 &\text{otherwise}
+\end{cases}
+$$
+FDM机制的直觉来看其分类规则是与IDM类似的，在strong critical ancestor sequence上找到第一个当$\{c_{j+1}\}\cup M_{c_jc_{j+1}}$不参与这个auction的情况下情况下，$c_j$是所有bidders中报价最高的那一个。其中$c_{j+1}$是在sequence上的下一个节点，$M_{c_jc_{j+1}}$表示的是在$c_{j}$和$c_{j+1}$之间的那些weak critical ancestors.
+
+对于任意一个strong critical ancestor $c_j\in C$, 其payment可以表示为三部分：
+
+第一部分是他需要支付的部分：$v^{1^{st}}_{N_{-c_j}}$，这个部分将会分配给他自己，前一个strong critical ancestor，$M_{c_{j-1}c_j}$以及seller.
+
+第二部分是他获得的部分，这一部分来自于下一个strong critical ancestor $c_{j+1}$. 
+
+第三部分是在redistribution之后他获得一部分reward.
+
+对于winner来说，他后面没有下一个strong critical ancestor因此他的第二部分为0.
+
+因为在两个strong critical ancestors $c_j$和$c_{j+1}$之间的支付值以及reward值不总是相等的，因此机制就将那一部分不同的值分配给weak critical ancestors $M_{c_jc_{j+1}}$以及$c_{j+1}$. 根据VCG Redistribution Mechanism的思想，对于buyer $i\in M_{c_jc_{j+1}}\cup \{c_{j+1}\}$的重分配的reward的计算方式是：在$i$可以选择的所有的report type之下的两种type之间差异的下界除以要去瓜分这个重分配reward的agents的数量$|M_{c_jc_{j+1}}|+1$. 在单物品的情境下，在$a'_i=nil$的情况下取得这个下界：也就是说它没有参与到这个auction中。更加准确地来说，对于任意一个$c_j\in \hat{C}$来说，假设他退出了这个机制，那么在$M_{c_jc_{j+1}}$中新的strong critical ancestor 变为了$g^{1^{st}}_{M_{c_{j-1}c_j}}$, 其payment变为$v^{1^{st}}_{N_{-\{c_j\} \cup g^{1^{st}}_{M_{c_{j-1}c_j}}}}$, 那么这个新变化的下界变为：$v^{1^{st}}_{N_{-\{c_j\}}\cup g^{1^{st}}_{M_{c_{j-1}c_j}}}-v^{1^{st}}_{N_{-\{c_j\}}\cup M_{c_{j-1}c_j}}$. 对于$i\in M_{c_{j-1}c_j}$, 如果他退出了机制，不会改变strong critical ancestor $c_j$的位置但是其payment会随之改变：$v^{1^{st}}_{N_{-\{i\}\cup \{c_j\}}}$. 因此在这种情况下的新差异的下界可以写为：$v^{1^{st}}_{N_{-\{i\}\cup \{c_j\}}}-v^{1^{st}}_{N_{-\{c_j\}}\cup M_{c_{j-1}c_j}}$.
+
+机制实现的算法复杂度为：$O(|V|(|V|+|E|))$. 
+
+下面给出一个实例：
+
+![Example for FDM](FDM_3.png)
+
+首先找到最高报价者$m$, strong critical ancestor sequence为$C=\{b,l,m\}$. 
+
