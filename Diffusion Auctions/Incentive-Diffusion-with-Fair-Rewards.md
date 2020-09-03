@@ -95,5 +95,5 @@ FDM机制的直觉来看其分类规则是与IDM类似的，在strong critical a
 
 ![Example for FDM](FDM_3.png)
 
-首先找到最高报价者$m$, strong critical ancestor sequence为$C=\{b,l,m\}$. 
+首先找到最高报价者$m$, strong critical ancestor sequence为$C=\{b,l,m\}$. 根据分配规则，这个item被分配给buyer $l$, 因为$v_l'=v^{1^{st}}_{N_{-\{m\}\cup M_{lm}}}$. 因此对于$l$来说，$\hat{C}=\{b,l\}$. weak critical ancestor set为$M_{bl}=\{h,k,g,j,f\}$. 对于那些strong critical ancestors来说，buyer $b$应当支付的值为：$v^{1^{st}}_{N_{-b}}=v_i'=7$. 她将从buyer $l$手中获得$v^{1^{st}}_{N_{-\{l\}\cup M_{bl}}}=v_e'=8$. 对于buyer $l$可以得到类似的结果，其需要支付为$v_h'=11$同时因为其为winner，所以他获得的值为0. 
 
