@@ -49,7 +49,13 @@ $t_i=(v_i,r_i)$. 假设固定传播，分析$v_i$的变化对于他slot变化的
 
 固定$v_i$，他的$r_i$关于payment的变化。（<font color=red>这个是解决问题的关键点</font>）
 
+#### 目前的一些进展工作（2020.9.5）
+
 VCG在多物品的diffusion auction上是否IC？（证明完成VCG在多物品上的diffusion auction是IC的下面考虑思考IDM的演化）
 
 GIDM的不IC的问题在于回溯的过程存在不传播比传播的收益更高。
 
+割点优先分配和price高优先分配之间的trade-off与Revenue最大化以及efficient之间的trade-off是相关的甚至是对应的！！！
+
+ 这种先判断割点的方式完全可以看成是IDM在多物品上的一种扩展。（因为CFM中当item的数量设置为1时其分配结果等价于IDM（一定是等价的））
+现在的目标变为寻找一个关键的支付规则！
