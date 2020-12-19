@@ -1,4 +1,4 @@
-一些基本的规则问题
+ 一些基本的规则问题
 
 1. IC diffusion auction中的单调分配规则是满足分配规则关于报价是非递减的，关于传播情况是非递增的，构成一个偏序关系下的单调规则。
 2. 关于payment，payment规则与自身报价无关，关于传播情况是非递增的。
@@ -153,3 +153,88 @@ IDM机制中关于reward的一个点理解是：reward：$v_{-i}^\ast-v^\ast_{-{
 
 （如何证明这种情景是不存在的，也就是这个cut node是不会去高报的）
 
+---
+
+ 2020.12.1
+
+可以证明：在这个机制下，假设有一个winner $i$他获得的是第$m$件商品，在这种情况下，他的子树下面的节点没有人可以通过高报来使得自己获得更高的收益。 假设存在一个bidder $j$他高报自己的估值从$v_j$到$v_j'$. 此时高报之后会出现两种情况，第一种情况是$v_j'$变为了top-k的报价，此时不会影响
+
+#### 目前证明IC的一些新的理解：
+
+一个优先级sequence（确保任何的agent都没有动机去虚报估值以及传播来改变这个顺序）+ IC diffusion auction的四条性质
+
+关于IC diffusion auction的四条性质上的证明：
+
+P1：$\pi$是值单调的。
+
+*Proof.* 主要考虑bid从$v_i$变为$v_i'$的情况下对于$v_{-\alpha_i}^j$中的割点规则$\alpha_i$以及轮到自己判定第$j$个物品这个$j$的改变情况。对于节点$i$进行分析：
+
+1. 如果$i$是一个winner且是一个cut node且其估值原本在前$k$高的bidders中，那么无论她怎么去改变自己的$v_i$也无法改变自己的$\alpha_i$同时无法改变自己的$j$，因此高报仍然会win，满足性质。
+2. 如果$i$是一个winner且是一个cut node且其估值原本不在前$k$高的bidders中，只要她高报仍然没到前$k$则没变化，如果高报到前$k$高显然她是一定能够win一个item的（这种情况下会改变其割边和判定数）。
+3. 如果$i$是一个winner且是一个leaf node，那么意味着他原本的估值一定是在前$k$高的价格中，高报对于他来说一定是可以win的。
+
+综合上面的三种情况可以说P1是满足的。
+
+P2：$\tilde{x}_i$和$\bar{x}_i$是bid-independent的。
+
+1. 最简单的情况    
+
+
+
+
+
+#### 一边做CFM机制的证明一边思考一些框架性的想法
+
+首先我们考虑一个问题：
+
+一个非常重要的推论
+
+决定优先顺序上：随着优先级排序，排名越靠后，支付的值是非递减的。（不可能有一个winner后win的支付低于前面的任何一个winner的支付）
+
+那么我们只要找到一个任意的优先序列让其没有动机让自己往前挤（在这个优先级序列上）
+
+$\Rightarrow$那么我们可以认为这个问题就能够进行简化了
+
+ 对于分配规则的拆解（prior sequence & satisfying condition）
+
+```mermaid
+graph LR
+A(All Bidders)-->B(Cut Nodes)
+A(All Bidders)-->C(Leaf Nodes)
+B-->D(Win)
+B-->E(Lose)
+D-->H(in top-k)
+H-->J(high-bid)
+H-->K(low-bid)
+D-->I(not in top-k)
+E-->T(in top-k)
+E-->U(not in top-k)
+T-->V(high-bid)
+T-->W(low-bid)
+U-->X(high-bid)
+U-->Y(low-bid)
+I-->L(high-bid)
+I-->M(low-bid)
+C-->F(Win)
+C-->G(Lose)
+F-->N(must in top-k)
+N-->P(high-bid)
+N-->Q(low-bid)
+G-->O(not in top-k)
+O-->R(high-bid)
+O-->S(low-bid)
+```
+
+**Lemma 1.** 任意一个在top-k中的节点高报永远都无法改变所有人的割点结果。
+
+**Lemma 2.** 对于任意一个节点来说，高报一定不会让他受益。
+
+*Proof.* 
+
+1. 在top-k中的cut nodes且是winner进行高报：不会改变他的关键节点的割边，从而也不会改变自己获得物品的次序，进而无法改变自己的支付，因此高报无法让其获得更高的收益。
+2. 不在top-k中的cut nodes且是winner进行高报：（1）没有高报到前top-k那么前top-k的集合没有变化，则大家的割边情况也不会发生变化，从而这个cut node的判别数不会发生改变。（2）如果高报到top-k则前top-k的集合发生变化，这个cut node进入集合，同时挤走另一个原先的top-k节点，则会在两个子树上发生割点的变化，一个是这个cut node所在的子树，另一个是被挤走的原先的top-k的节点所在的子树。（假设不是同一个子树）前者：对于这个cut node前面的所有的cut nodes来说，割点策略$\alpha_k\subseteq \alpha_k'$，也就意味着$v_{-\alpha_k}^m\geq v_{-\alpha_k'}^m$，而对于另外一颗子树上的节点来说（有点复杂）<font color=red>（在做这里的验证时发现一个反直觉的事情，在diffusion下并不是说越后面分配出去的物品买家支付的值就一定越高，并不存在这样的一个非递减的性质。有可能会出现后win的人反而支付的比前面的人少。）</font>
+3. 在top-k中的cut nodes且是loser进行高报：有可能是unlucky player也有可能是单纯轮到他的时候他在原top-k的排名不支持他win一个item了，因为有一些非top-k的cut nodes已经抢占了一些物品。（1）假设是一个unlucky player，也就是还没判断到他是物品已经分配完了，这个时候他所能够改变分配的情况为提高报价使得前面某个人win不了。假设他能够让某个人win不了，则他和那个被输的人一定不是被那个被输的人支配，同时我们会他这么做一定会带来亏损，由于前面那个人win了则一定有$v_{lose}>v_i$，因为如果$i$的估值大于被输掉的人的估值则被输的人原本不会win，从而如果$i$高报让这个人输了，他的支付一定是$v_{lose}$，这个值大于$v_i$从而这个unlucky player没有动机高报；（2）假设这个人不是一个unlucky player，只是被抢占了位置导致其判别数下的值$v_{-\alpha_i}^j>v_i$（在一般拍卖下$v_i\geq v^{k}$）从而win不了，考虑这种情况下高报会使得
+
+​    
+
+**Lemma 3.** 常规单物品需求同质多物品的auction的唯一IC机制满足winners的bid等于第$k+1$高的价格，大家的支付都相等。对于单物品需求同质多物品的diffusion auction，winners的支付值取决于bidder的判别数以及其diffusion情况。这个支付值应该不满足关于判别数的单调性。但是一定满足关于diffusion情况的单调性。
