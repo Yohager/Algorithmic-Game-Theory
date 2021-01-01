@@ -271,12 +271,6 @@ O-->S(low-bid)
 
 1. 对于一个winner的cut node, 我们考虑其diffusion $r_i$，从$r_i$变为$r_i'$. 可能发生的事情是其关键报价从$v_{-\alpha_i}^{k-|w_{\succ i}|}$变为了$v_{-\alpha_i'}^{k-|w_{\succ i}'|}$，显然，我们可以知道$\alpha_i'\subseteq  \alpha_i$. 从而$-\alpha_i\subseteq -\alpha_i'$. 而对于$k-|w_{\succ i}|$，少传的可能是让其他优先级高于$i$同时没有win的人变成了winner，从而我们会发现$k-|w_{\succ i}|$一定是大于$k-|w_{\succ i}'|$
 
-
-
-
-
-
-
 需要思考关于$\tilde{x}_i(r_i)-\bar{x}_i(r_i)=v^\ast(r_i)$在多物品上的改进版本，这个结论应该如果进行一下改进？
 
 现在决定自己的关键报价还取决于判别数$k-|w_{\succ i}|$. 而我们需要着重探讨的是这个$k-|w_{\succ i}|$关于报价和传播的关系。
@@ -342,5 +336,36 @@ $H$的关键报价为$v_{-\alpha_H}^3=3.49$, H是一个winner，支付为$v_{-H}
 1. 任何一个节点都不允许在其关键传播节点被判断前被判断。
 2. 对于任何一个节点，在被判断是否可以win的情况下，不要将其估值直接置零。
 
+##### 如何研究判别数关于一个bidder的报价与diffusion变化的情况？
 
+理论上很好的结果应该是：
 
+理论上来说我们应该控制一个bidder的判别数与报价无关？同时关于diffusion非递增的？（<font color=red>结论存疑</font>）
+
+对于traditional的auction场景下，所有人的地位是平等的，所以对于任何一个bidder来说其判别数均为$k$，但是这个结论在diffusion的场景下不满足，存在critical diffusion nodes从而会导致所有的nodes之间存在先后关系，也就是优先级的关系。
+
+**关于IC diffusion auction的四条性质上的证明：**
+
+P1：$\pi$是值单调的。
+
+*Proof.* 主要考虑bid从$v_i$变为$v_i'$的情况下对于$v_{-\alpha_i}^j$中的割点规则$\alpha_i$以及轮到自己判定第$j$个物品这个$j$的改变情况。对于节点$i$进行分析：
+
+1. 如果$i$是一个winner且是一个cut node且其估值原本在前$k$高的bidders中，那么无论她怎么去改变自己的$v_i$也无法改变自己的$\alpha_i$同时无法改变自己的$j$，因此高报仍然会win，满足性质。
+2. 如果$i$是一个winner且是一个cut node且其估值原本不在前$k$高的bidders中，只要她高报仍然没到前$k$则不会改变割边的情况，那么自然不会改变分配的情况；但是如果他高报到前$k$中，就有可能出现lose的情况，所以在这种情况下，违背了$\pi$是值单调的这个性质。（<font color=red>cases 1</font>）
+3. 如果$i$是一个winner且是一个leaf node，那么意味着他原本的估值一定是在前$k$高的价格中，高报对于他来说一定是可以win的。（没有问题）
+
+综合上面的三种情况可以说P1是满足的。
+
+P2：$\tilde{x}_i$和$\bar{x}_i$是bid-independent的。
+
+关于这个性质存在Counter Example证明性质不满足条件。存在有bidder可以通过低报改变自己的支付值同时也存在bidder通过高报改变自己的支付从而提高收益（<font color=red>cases 2 和case 3</font>）
+
+P3：$\tilde{x}_i(r_i)-\bar{x}_i(r_i)=v^\ast(r_i)$.
+
+对于任意的bidder，我们都可以写出其win和lose的支付值：
+
+对于一个winner：其支付值为：$\tilde{x}_i(r_i)=v_{-i}^{k-|w_{\succ i}|}$，而对应的其lose的支付值为：$v_{-i}^{k-|w_{\succ i}|}-v_{-\alpha_i}^{k-|w_\succ i|}$，而根据我们的分配规则我们可以知道对于每个bidder，其关键报价为$v_{-\alpha_i}^{k-|w_{\succ i}|}$. 自然这个机制是满足$P3$的.
+
+P4：$\tilde{x}_i$和$\bar{x}_i$是diffusion-monotonic的
+
+对于P4来说，考虑在tree上的情况，一个winner，本身在top-k中，他少传的结果少了一些top-k的bidders，这往往给bidders$ (\succ i)$增加了获得一个物品的概率，因此对自己是不利的，同时也就意味着$\tilde{x}_i(v_i,r_i'')\geq \tilde{x}_i(v_i,r_i')$，假设他少传了一些非top-k的节点，同样不会影响他前面的节点同时对于其他枝上的节点来说，有可能增加别人获胜的机会从而使得自己的判别数增加，导致自己的支付增加，导出的结果是少传使得自己的支付变大了；假设一个winner，这个winner本身不在top-k中，考虑是否存在可能性他通过少传使得前面的一个节点获胜从而导致他的判别数增加，但是此时假设他少传之前需要支付的值就是刚刚那个loser的值，现在通过他自己的少传使得那个人win了同时他支付值变少了？可能吗？这种情况不可能发生。假设同样的对于一个loser来说，他少传了首先不可能增加他获得物品的概率，因为在对他进行判断时我们不考虑那些他的子树上的top-k的bidders，因此他少传top-k bidders是没有意义的，与此同时，我们会发现如果他少传了一些非top-k的节点，对于他来说：$v_{-i}^{k-|w_{\succ i}|}-v_{-\alpha_i}^{k-|w_\succ i|}$中前一项不会有变化（少传还得考虑与$k-|w_{\succ i}|$的关系，这里应该要引入一个单调性作为关键信息），同时考虑由于少传：$-\alpha_i'\subseteq -\alpha_i$也就意味着$v_{-\alpha_i'}^{k-|w_\succ i|} \leq v_{-\alpha_i}^{k-|w_\succ i|}$. 不难发现收益会降低，从而说明了传的越少支付越高，即满足diffusion-monotonic.
