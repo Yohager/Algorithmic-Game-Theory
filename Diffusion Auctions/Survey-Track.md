@@ -1,54 +1,137 @@
 ```mermaid
 graph LR
-diffusion-mechanism--> with-money
-diffusion-mechanism--> without-money
-with-money--> IDM/CSM/CDM/WDM/FDM
-without-money--> CrowdSourcingMechanism
+
+diffusion-mechanism--> IC-mechanism
+diffusion-mechanism--> Non-IC-mechanism
+IC-mechanism--> with-money
+IC-mechanism--> without-money
+Non-IC-mechanism--> MLM
+Non-IC-mechanism--> GPRM
+with-money--> single-item-auction
+with-money--> multiple-items-auction
+with-money--> economic-market-auction
+with-money--> Double-auction
+single-item-auction--> IDM
+single-item-auction--> CDM
+single-item-auction--> FPDM
+single-item-auction--> FDM
+multiple-items-auction-->GIDM
+multiple-items-auction-->DNA-MU
+multiple-items-auction-->Clinching-auction
+economic-market-auction--> CSM
+economic-market-auction--> Extension-of-CSM-WDM
+without-money--> House-Allocation-Problem
+without-money--> Answer-Querying
+without-money--> Cooperative-Game
+without-money--> Maximize-Information-Propagation
+without-money--> CrowdSourcing-Mechanism
 ```
 
 #### Survey-Track
 
-diffusion auction:
+##### With-money (resource allocation)
 
-IDM 2017 (extend auction into a social network firstly)
-
-CSM 2018 (extend auction into a economic network with diffusion cost)
-
-CDM & WDM (summary of IDM and CSM: considering a more abstract framework for diffusion auction for single-item, with diffusion cost and without diffusion cost)
+**single-item diffusion auction**
 
 Incentive Compatible Diffusion Auction 2020
 
-multiple items diffusion auction
+2017 IDM (extend auction into a social network firstly)
+
+2018 CSM (extend auction into a economic network with diffusion cost)
+
+2019 CDM & WDM (summary of IDM and CSM: considering a more abstract framework for diffusion auction for single-item, with diffusion cost and without diffusion cost)
+
+2019 Fixed-Price Diffusion Mechanism <font color=red>(this paper is unpublished)</font>
+
+2020 ECAI FDM extension on reward for diffusion 
+
+
+
+**multiple items diffusion auction**
 
 2018 AAMAS Selling multiple items via social network
 
-#### Other-Works
-
-extensions with IDM
-
-Double auction
-
-Answer Querying Mechanism
-
-FDM extension on reward for diffusion 
-
-Redistribution Mechanism for diffusion auction
-
-Fixed price diffusion auction
-
-considering maximize revenue in economic network (2020 IEEE Access)
-
-maximal information propagation with budgets
+2020 AAAI DNA-MU (Distance based network auction for multi-unit unit-demand buyers)
 
 
 
+**multi-buyers-multi-items diffusion auction**
+
+2019 DAI double auction
 
 
-considering efficient but not IC diffusion auction
 
-The Referrer's Dilemma
+##### Without-money (task allocation)
 
-groupwise pivotal referral mechanism
+2020 IJCAI Answer Querying Mechanism
+
+2020 AAMAS Redistribution Mechanism for diffusion auction		
+
+2020 ECAI maximal information propagation with budgets
+
+2020 AAMAS Crowd-sourcing Collaborative Data Acquisition 
+
+<font color=red>(unpublished)</font>
+
+House-allocation problem (Barter Exchange via friends' friends)
+
+Coalitions game (Incentives to Form Larger Coalitions when players have the power to choose)
 
 
+
+##### Non-IC mechanism
+
+2016 EC Multi-Level Mechanism
+
+2019 GPRM group-wise-pivotal-referral mechanism
+
+
+
+#### Analysis:
+
+efficiency 
+
+budget balance
+
+revenue maximization
+
+
+
+#### Another framework
+
+1 Introduction
+
+2 Diffusion Auction 
+
+​	2.1 Definition
+
+​	2.2 Single-item auction
+
+​		2.2.1 Diffusion without transfer cost
+
+​		2.2.2 Diffusion with transfer cost
+
+​	2.2 Multiple-item auction
+
+​	2.3 DSIC diffusion auction
+
+​	2.4 Non-IC diffusion auction
+
+3 Beyond Auction (Diffusion Mechanism Design without Money)
+
+​	3.1 CrowdSourcing Problem (data acquisition & Answer-Querying)
+
+​	3.2 Maximize Information Propagation (consider some work about contents with diffusion strategies)
+
+4 Discussion
+
+Reference 
+
+**Redistribution Mechanism**
+
+government builds library $\Rightarrow$ who are more eagle for the facility.
+
+charity want to distribute the donation for those who need most.
+
+allocate doctors to areas where doctors are highly demanded.
 
