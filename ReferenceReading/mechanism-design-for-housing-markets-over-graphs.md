@@ -140,3 +140,88 @@ y &= (h_k,h_j,h_i)\\
 z &= (h_i,h_j,h_k)
 \end{split}
 $$
+
+因此想要满足WC4N必须是在这3个分配规则中。但是对于分配规则$y$和$z$来说，$\{j,k\}$都会组成一个阻塞联盟。因此想要一个机制既满足WC4N同时也满足SP的话，只有可能返回的结果是$x$这一种分配，然而我们又可以发现此时$i$得到的仍然是它自己的房屋$h_i$, 此时它是有动机不diffuse the information to $j$，假设不传给$j$我们得到的结果: $i$获得$h_k$同时$k$获得$h_i$. $i$玩家通过不传播使得自己的收益增加了。从而通过这个例子我们说明了SP和WC4N是不相容的。
+
+#### Preference Restrictions
+
+前面一章我们说明了当参与agents的数量大于等于3时，在networked housing market中是不存在一个满足SP，IR和PE的机制的。
+
+因此下面我们考虑对其中的一些方面进行约束，首先考虑的是对所有的agents的偏好进行约束：我们讨论无圈的偏好。下面我们给出一个结论，当且仅当偏好域是无圈的情况下，TTC在networked housing market中是满足SP的。
+
+***Acyclic Domain*** 我们称一个domain $\Pi'\subseteq \Pi$的偏好是无圈的，如果对于任意两个偏好$\succ,\succ'\in\Pi'$和对于任意的其他三个不同的houses，$h_i,h_j,h_k\in H$, 有结论：
+$$
+[h_i\succ h_j\succ h_k]\Rightarrow [h_i\succ' h_k]
+$$
+直观上来说，无环性要求了所有的偏好都有一个类似的形式，可以通过使用如下递归的规则表达出来。（1）至少被一个偏好排名在最前面的房屋的数量为1或者2，同时如果是两个房屋的话，我们记为$h_i,h_j$, 所有的偏好都会将他们排在最前面和第二名。（这个概念还是比较绕的，需要思考一下）
+
+> For a networked housing market $(N,\Pi',r)$ with $n\geq 3$ and general $r$, TTC satisfies SP if and only if domain $\Pi'$ of preference is acyclic.
+
+Proof: 
+
+首先证明充分性：假设domain $\Pi'$的偏好都是无圈的，我们证明TTC是满足SP的。根据无圈性的定义我们可以知道所有的房屋都可以分为一些不同的层次且每一个层中要么有一个房屋，要么有两个房屋。所以在交换的时候每一个agent只会考虑和自己在一个层次的agent进行房屋的交换。所以说显然传播只有可能增加他的收益不会有可能降低他的收益的，因为传播了有可能让他从不能交换变成能够交换得到更好的房屋。同时传播增加的那些不跟自己在一层的agents不会影响自己的房屋的交换情况，所以说全传是一个占优策略。从而我们可以发现TTC在这种情况下在networked housing market问题下是SP的。
+
+下面证明必要性：考虑TTC满足SP，我们说明此时的偏好必须是满足无环的。假设两个偏好$\succ,\succ'\in \Pi'$和三个不同的房屋$h_i,h_j,h_k\in H$, 有$[h_i\succ h_j\succ h_k]\and [h_k\succ' h_i]$, 此时对于$h_j,h_k$在$\succ'$上只有两种可能性了，要么是$h_k\succ' h_j$或者是$h_j\succ' h_k$.
+
+这里的证明简略说明一下，文中分别讨论了上述的两种情况，然后发现，在两种情况下我们都可以找到反例，存在agent可以通过少传播来使得自己的交换的结果更优，从而也就说明了当$\succ=[h_i\succ h_j\succ h_k]$的情况下，不能够出现类似$\succ'$中有这种环$h_k\succ' h_i$的情况，出现了这种情况就代表一定有agent可以通过少传使得自己的交换结果更优。因此对于任意的$\succ'$必须满足$h_i\succ'h_k$，这也就是满足了acyclic preference的定义，从而充要性证明完毕。
+
+注意到，当对偏好域进行约束的情况下，TTC算法的唯一性是不能保证的，因为可能还存在其他的算法也满足SP，IR和PE. 举个例子：对于单峰值的偏好而言，在传统的房屋分配问题下还存在另一种机制Crawler Mechanism也满足和TTC一样的性质。因此在networked housing market下也是可能存在一些其他的机制的。
+
+#### Network Restriction
+
+之前我们对偏好域进行了一定的约束，现在我们不再对偏好域进行约束，而是对networked housing market中的network进行约束，使得整个network满足一些特殊的限制的条件下考虑TTC机制。
+
+##### Pareto Efficiency
+
+先给出第一个结论：
+
+> For a networked housing market $(N,\Pi,r)$ with $n\geq 3$ and a fixed $r$, TTC satisfies SP iff $r_s=N$, i.e. all the agents are directly connected to all other members.
+
+Proof:
+
+首先证明充分性：考虑所有的agents都是连接到moderator的，也就是说任何的hidden diffusion的操作都是没有任何意义的，实际上这个场景就退化到了传统的housing market问题上，进一步TTC显然是SP的。
+
+下面证明必要性：如果TTC是SP的，那么我们要证明这个network一定是这种星型的网络。前面我们证明了当agents的数量小于等于2的情况下，TTC是满足SP的，下面我们考虑的是去证明只要在有一个agent不是直接连接到moderator的情况下，TTC就是不满足SP的就可以complete这个证明。我们假设这个agent用$j$表示同时他的parent节点表示为$i$. 我们考虑如下图所示的这两种情况：
+
+<img src=".\Figures\housing-4.png" style="zoom:80%;" />
+
+第一种情况就是如果$i$不diffuse到$j$的话，此时整个网络中只有$i$这一个agent；第二种情况就是如果$i$不diffuse给$j$的情况下除了$i$以外至少还有一个agent也还在这个network中。仍然是对这两种情况进行推导，构建出一个反例使得在所有的agents中有agent存在动机少传播来使得自己的结果更好。证明也是从略。
+
+上述的结论也可以改写为如下推论：
+
+> For a networked housing market $(N,\Pi,r)$ with $n\geq 3$ and a fixed $r$, there exists a mechanism that satisfies SP, IR, PE iff $r_s=N$.
+
+##### Strict core for Neighbors
+
+下面考虑的是当约束了网络结构之后，SP和SC4N是否能够相容的情况。在之前的结论中，我们发现到一个agent的多重路径使得SP和SC4N之前是不相容的，因此下面我们只去考虑directed tree的网络结构。首先引入一个TTC的修正算法。这个修正算法对于agents的actions进行了约束。
+
+***Modified TTC*** 算法的基本流程如下：
+
+如果市场上没有agents了那么算法就终止。否则的话，我们对于剩余的agents构建一个有向图，和TTC算法是类似的，不过我们约束每一个agent只能指向他的parents，herself或者他的descendants其中的一个，他选择在这些nodes中拥有他最喜欢的房子的那个node. 对于出现环的情况，按照环的指示对于所有环上的agents进行房屋的重分配。反复进行这个过程直到算法终止。
+
+这里给出一个example：
+
+**Example of Modified TTC**: 
+
+<img src=".\Figures\housing-5.png" style="zoom:100%;" />
+
+给出如下的偏好：
+
+<img src=".\Figures\housing-6.png" style="zoom:80%;" />
+
+走一遍算法流程：根据modified TTC，step 1我们将i指向m，将j指向i，将k指向l，将l指向l，将m指向k. 找到第一个环，从l指向l，将$h_l$分配给l；进行step 2，重复这个流程。之后的流程不一一赘述。算法很清晰且容易理解。
+
+最终的分配结果为：$x_i=h_m,x_j=h_j,x_k=h_i,x_l=h_l,x_m=h_k$. 根据这个结果我们可以发现其中是存在blocking coalition的，包括$\{j,m\}$和$\{k,l,m\}$，但是这些coalition都不满足WC4N和SC4N. 因此我们可以给出结论：
+
+> The modified TTC satisfies both SP and SC4N for a networked housing market $(N,\Pi,r)$ when $r$ is a tree network.
+
+证明从略，大致的思路是考虑两种diffusion的策略，要么是$r_i$要么是$r_i'\subseteq r_i$，文中证明了使用$r_i'$matching到的房屋使用$r_i$也能够matching到，这是证明SP时的大致思路，也就是说全传播的结果永远不会差于少传的结果。在证明SC4N时，证明思路是类似的，也是反证法。
+
+#### Discussion
+
+这一部分作者主要讨论了一个问题，大概是在network auctions中我们大部分的机制都是基于diffusion critical tree (DCT) 进行的，但是这个思想在networked housing market是不太适用的，在networked auction的问题下，我们发现DCT下的SP的机制有两个重要的性质，（1）拥有更多的孩子节点对于自己的来说收益一定是不会减少的；（2）对于$i$来说，其他分支上的结构不会影响$i$的输出结果。但是在networked housing market这个问题上就不太行，作者给出了他自己的说明，如果我们对于SC4N进行修正的话，第二个性质会被破坏。最终作者给出了一个不可能的结论，在DCT上定义的WC4N是无法找到机制同时满足SP和WC4N的，更进一步的，不仅仅是在这个DCT上定义的WC4N上定义的新TTC算法不难阻，任何一个在DCT上定义的SP的机制都是不能够满足WC4N的。
+
+#### Conclusion Remarks
+
+一个新的资源分配问题，关于housing market的问题，如何考虑没有money去补偿的情况下，讨论agents去隐藏信息传播的动机。分析了在对于偏好进行约束情况下的SP机制；在对于network进行约束情况下的SP的机制，同时给出了一个改进的TTC机制在tree network下有很好的性质。未来的探究方向包括：考虑额外的由moderator提供的房屋；考虑其他的一些偏好的限制和约束；允许单个人拥有多个房屋的情况；考虑除了PE之外的其他性质，比如说最大的交换次数等等。
+
