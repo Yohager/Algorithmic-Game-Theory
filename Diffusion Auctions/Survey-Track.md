@@ -77,7 +77,7 @@ House-allocation problem (Barter Exchange via friends' friends)
 
 Coalitions game (Incentives to Form Larger Coalitions when players have the power to choose)
 
-
+**Sybil-proof answer querying mechanism**
 
 ##### Non-IC mechanism
 
@@ -87,7 +87,7 @@ Coalitions game (Incentives to Form Larger Coalitions when players have the powe
 
 
 
-#### Analysis:
+#### Analysis Perspectives:
 
 efficiency 
 
@@ -97,7 +97,7 @@ revenue maximization
 
 
 
-#### Another framework
+#### Framework
 
 1 Introduction
 
@@ -119,13 +119,15 @@ revenue maximization
 
 3 Beyond Auction (Diffusion Mechanism Design without Money)
 
-​	3.1 CrowdSourcing Problem (data acquisition & Answer-Querying)
+​	3.1 Crowd-Sourcing Problem (data acquisition & Answer-Querying)
 
 ​	3.2 Maximize Information Propagation (consider some work about contents with diffusion strategies)
 
 4 Discussion
 
 Reference 
+
+
 
 **Redistribution Mechanism**
 
@@ -135,3 +137,18 @@ charity want to distribute the donation for those who need most.
 
 allocate doctors to areas where doctors are highly demanded.
 
+
+
+Other reference
+
+Blume trading networks intermediaries decide mechanisms
+
+Manea intermediation in markets with a network structure
+
+
+
+Bulow and Klemperer 1996
+
+摘要：
+
+传统的机制设计下，所有参与其中的agents在一个确定性的环境下进行
